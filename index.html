@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporting Obligations - Dental Assistant Training</title>
+    <style>
+        /* BRAND COLOUR PALETTE */
+        :root {
+            --primary-purple: #532A8C;
+            --secondary-purple: #9D8ABB;
+            --accent-green: #7ABF49;
+            --light-green: #96BF78;
+            --bg-grey: #F2F2F2;
+            --lavender: #C3ACE8;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --overlay-bg: rgba(83, 42, 140, 0.85); /* Purple overlay */
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-grey);
+            background-image: linear-gradient(135deg, #F2F2F2 0%, #e8e0f5 100%);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(to right, var(--primary-purple), var(--secondary-purple));
+            color: var(--white);
+            padding: 40px 20px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            font-weight: 300;
+        }
+
+        /* MAIN CONTAINER - GRID LAYOUT */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            flex: 1;
+        }
+
+        /* CARD STYLING */
+        .card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-bottom: 5px solid var(--accent-green);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 250px;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(83, 42, 140, 0.2);
+            border-bottom-color: var(--primary-purple);
+        }
+
+        /* CARD ICONS & ANIMATION */
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(122, 191, 73, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover .icon-circle {
+            background-color: var(--primary-purple);
+            transform: scale(1.1);
+        }
+
+        .card:hover .icon-circle svg {
+            stroke: var(--white);
+        }
+
+        .card svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--primary-purple);
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease;
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            color: var(--primary-purple);
+            margin: 0 0 10px 0;
+        }
+
+        .card p.preview {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .card-btn {
+            margin-top: 20px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            background-color: var(--bg-grey);
+            color: var(--primary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-btn {
+            background-color: var(--accent-green);
+            color: var(--white);
+        }
+
+        /* MODAL (POPUP) STYLING */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-top: 8px solid var(--primary-purple);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-purple);
+        }
+
+        .modal-header {
+            padding: 30px 40px 10px 40px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--primary-purple);
+            font-size: 2rem;
+        }
+
+        .modal-body {
+            padding: 10px 40px 40px 40px;
+        }
+
+        /* MODAL CONTENT TYPOGRAPHY */
+        .modal-body h3 {
+            color: var(--secondary-purple);
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+        
+        .modal-body ul {
+            padding-left: 0;
+        }
+        
+        .modal-body ul li {
+            list-style: none;
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .modal-body ul li::before {
+            content: "";
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237ABF49' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            width: 18px;
+            height: 18px;
+            background-size: cover;
+            position: absolute;
+            left: 0;
+            top: 3px;
+        }
+
+        /* AUDIO BUTTON STYLING */
+        .audio-btn {
+            background: transparent;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 160px; /* Prevents jumping width when text changes */
+            justify-content: center;
+        }
+
+        .audio-btn:hover {
+            background-color: var(--accent-green);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(122, 191, 73, 0.2);
+        }
+
+        .audio-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .audio-btn.playing {
+            background-color: var(--accent-green);
+            color: var(--white);
+            animation: pulse-green 1.5s infinite;
+        }
+        
+        .audio-btn.paused {
+            background-color: var(--secondary-purple);
+            color: var(--white);
+            border-color: var(--secondary-purple);
+            animation: none;
+        }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(122, 191, 73, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(122, 191, 73, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(122, 191, 73, 0); }
+        }
+
+        .info-box {
+            background-color: #f4f1fc;
+            border-left: 4px solid var(--primary-purple);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .contact-box {
+            background-color: #f0f7eb;
+            border: 1px solid var(--light-green);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-purple);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* ANIMATION FOR CONTENT */
+        .content-hidden { display: none; }
+
+        @media (max-width: 600px) {
+            .container { grid-template-columns: 1fr; }
+            .modal-content { width: 95%; max-height: 90vh; }
+            .modal-header, .modal-body { padding: 20px; }
+            header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Reporting Hub</h1>
+        <p>Interactive Training Module for Dental Assistants</p>
+    </header>
+
+    <div class="container">
+
+        <!-- CARD 1 -->
+        <div class="card" onclick="openModal('modal-1')">
+            <div class="icon-circle">
+                <!-- Icon: Alert Triangle -->
+                <svg viewBox="0 0 24 24">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
+            <h2>General Breaches</h2>
+            <p class="preview">Infection control, equipment failures &amp; safety hazards.</p>
+            <div class="card-btn">Tap to View</div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card" onclick="openModal('modal-2')">
+            <div class="icon-circle">
+                <!-- Icon: Shield -->
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+            </div>
+            <h2>Mandatory Reporting</h2>
+            <p class="preview">Child protection obligations &amp; legal requirements.</p>
+            <div class="card-btn">Tap to View</div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card" onclick="openModal('modal-3')">
+            <div class="icon-circle">
+                <!-- Icon: Hard Hat (Activity) -->
+                <svg viewBox="0 0 24 24">
+                    <activity x="0" y="0">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+            </div>
+            <h2>WHS Issues</h2>
+            <p class="preview">Workplace health, safety risks &amp; Duty of Care.</p>
+            <div class="card-btn">Tap to View</div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="card" onclick="openModal('modal-4')">
+            <div class="icon-circle">
+                <!-- Icon: Building/Landmark -->
+                <svg viewBox="0 0 24 24">
+                    <line x1="3" y1="21" x2="21" y2="21"></line>
+                    <line x1="9" y1="8" x2="9" y2="21"></line>
+                    <line x1="15" y1="8" x2="15" y2="21"></line>
+                    <path d="M4 21V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14"></path>
+                    <path d="M12 5V3a2 2 0 0 0-2-2h-1"></path> <!-- Flag pole style -->
+                </svg>
+            </div>
+            <h2>Professional Bodies</h2>
+            <p class="preview">AHPRA, Dental Board &amp; External complaints.</p>
+            <div class="card-btn">Tap to View</div>
+        </div>
+
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            
+            <!-- CONTENT INJECTION AREA -->
+            <div id="modal-content-area"></div>
+        </div>
+    </div>
+
+    <!-- HIDDEN CONTENT SOURCES -->
+    <div class="content-hidden">
+        
+        <!-- Content 1 -->
+        <div id="content-modal-1">
+            <div class="modal-header">
+                <h2>General Reporting Breaches</h2>
+            </div>
+            <div class="modal-body">
+                <p>Breaches of policies and procedures will occur. Reporting helps determine why an infringement occurred and prevents it from happening again.</p>
+                
+                <div class="info-box">
+                    <strong>Who to report to:</strong> Check with your workplace supervisor for the specific list of responsible persons.
+                </div>
+
+                <h3>Specific Incident Examples</h3>
+                <ul>
+                    <li>
+                        <strong>Breach of infection control policy:</strong> Report to the appropriate person (e.g., supervisor or practice manager).
+                        <br>
+                        <button class="audio-btn" onclick="toggleAudio(this, 'Scenario 1. Infection Control Breach. You notice a colleague has accidentally placed unsterile instruments onto a sterile tray setup. This is a breach of protocol. Do not use the tray. You must report this to the clinical coordinator immediately to ensure patient safety.')">
+                            <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            Listen to Scenario
+                        </button>
+                    </li>
+                    <li>
+                        <strong>Breakdown of equipment:</strong> (e.g., autoclave failure) Report immediately to ensure repairs are scheduled.
+                        <br>
+                        <button class="audio-btn" onclick="toggleAudio(this, 'Scenario 2. Equipment Breakdown. The morning autoclave cycle has failed and is displaying an error code. Do not attempt to use the instruments. Place an Out of Order sign on the machine and report the breakdown to the Practice Manager so a technician can be called.')">
+                            <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            Listen to Scenario
+                        </button>
+                    </li>
+                    <li>
+                        <strong>Safety hazards:</strong> (e.g., overhanging power cords) Report to the appropriate person and suggest a fix.
+                        <br>
+                        <button class="audio-btn" onclick="toggleAudio(this, 'Scenario 3. Safety Hazard. You notice the curing light power cord is stretched across the walkway in Surgery 2. This is a trip hazard. Unplug it immediately to make the area safe, then report the hazard to your supervisor and suggest moving the unit closer to the wall socket.')">
+                            <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            Listen to Scenario
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Content 2 -->
+        <div id="content-modal-2">
+            <div class="modal-header">
+                <h2>Mandatory Reporting (Child Protection)</h2>
+            </div>
+            <div class="modal-body">
+                <p>Dental professionals have strict legal obligations regarding the protection of children.</p>
+                <ul>
+                    <li><strong>Who is a Mandatory Reporter?</strong> Dentists and allied health professionals (including dental assistants delivering services to children).</li>
+                    <li><strong>Legal Requirement:</strong> You must report evidence of suspected child abuse or neglect.</li>
+                    <li><strong>Priority:</strong> The duty of care to report abuse carries greater weight than patient confidentiality.</li>
+                </ul>
+                
+                <div class="contact-box">
+                    <h3>Contact for Reporting</h3>
+                    <p><strong>Child Protection Helpline:</strong> 13 2111</p>
+                    <p><strong>NSW Dept. of Family & Community Services:</strong> Responsible for handling reports in NSW.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content 3 -->
+        <div id="content-modal-3">
+            <div class="modal-header">
+                <h2>Workplace Health and Safety (WHS)</h2>
+            </div>
+            <div class="modal-body">
+                <p>All workplaces must have a consultation process in place for safety.</p>
+                <ul>
+                    <li><strong>Duty of Care:</strong> You have a legal duty to report any unethical behaviour or safety risks to your supervisor.</li>
+                    <li><strong>WorkCover:</strong> Government inspectors can advise on premises or impose fines for breaches of the WHS Act.</li>
+                </ul>
+                <p><em>Always prioritize your safety and the safety of your patients.</em></p>
+            </div>
+        </div>
+
+        <!-- Content 4 -->
+        <div id="content-modal-4">
+            <div class="modal-header">
+                <h2>Reporting to Professional Bodies</h2>
+            </div>
+            <div class="modal-body">
+                <p>Certain situations require reporting to external regulatory bodies.</p>
+                <h3>Key Authorities</h3>
+                <ul>
+                    <li><strong>Dental Board of Australia:</strong> Handles notifications, complaints, and disciplinary hearings.</li>
+                    <li><strong>AHPRA:</strong> Manages complaints about health, performance, and conduct of practitioners.</li>
+                    <li><strong>HCCC (Health Care Complaints Commission):</strong> In NSW, complaints regarding services can be made here.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Dental Assistant Training | Interactive Resources</p>
+    </footer>
+
+    <script>
+        function openModal(contentId) {
+            const overlay = document.getElementById('modal-overlay');
+            const contentArea = document.getElementById('modal-content-area');
+            const sourceContent = document.getElementById('content-' + contentId);
+            
+            // Inject content
+            contentArea.innerHTML = sourceContent.innerHTML;
+            
+            // Show modal
+            overlay.classList.add('active');
+        }
+
+        function closeModal(event) {
+            // Stop audio if playing
+            window.speechSynthesis.cancel();
+            resetAllButtons();
+            
+            // Close if clicking overlay or close button
+            const overlay = document.getElementById('modal-overlay');
+            overlay.classList.remove('active');
+        }
+
+        // Global tracking for audio state
+        let currentBtn = null;
+        
+        function resetAllButtons() {
+            document.querySelectorAll('.audio-btn').forEach(b => {
+                b.classList.remove('playing', 'paused');
+                b.innerHTML = `
+                    <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    Listen to Scenario
+                `;
+            });
+            currentBtn = null;
+        }
+
+        function toggleAudio(btn, text) {
+            const synth = window.speechSynthesis;
+
+            // Check if we are clicking the SAME button that is currently active
+            if (currentBtn === btn) {
+                if (synth.speaking && !synth.paused) {
+                    // If speaking, PAUSE
+                    synth.pause();
+                    btn.classList.remove('playing');
+                    btn.classList.add('paused');
+                    btn.innerHTML = `
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        Resume
+                    `;
+                    return;
+                }
+                if (synth.paused) {
+                    // If paused, RESUME
+                    synth.resume();
+                    btn.classList.remove('paused');
+                    btn.classList.add('playing');
+                    btn.innerHTML = `
+                        <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        Pause
+                    `;
+                    return;
+                }
+            }
+
+            // If clicking a NEW button or starting fresh
+            if (currentBtn && currentBtn !== btn) {
+                resetAllButtons(); // Reset previous button
+                synth.cancel(); // Stop previous audio
+            }
+
+            // Start New Audio
+            currentBtn = btn;
+            
+            // VOICE SELECTION LOGIC
+            const voices = synth.getVoices();
+            // 1. Look for specific high-quality Female AU voices
+            let targetVoice = voices.find(v => v.lang === 'en-AU' && (v.name.includes('Catherine') || v.name.includes('Karen')));
+            // 2. Look for any voice with 'Female' in the name within en-AU
+            if (!targetVoice) {
+                targetVoice = voices.find(v => v.lang === 'en-AU' && v.name.includes('Female'));
+            }
+            // 3. Fallback to Google AU (often female by default)
+            if (!targetVoice) {
+                targetVoice = voices.find(v => v.lang === 'en-AU' && v.name.includes('Google'));
+            }
+            // 4. General Fallback to any en-AU voice
+            if (!targetVoice) {
+                targetVoice = voices.find(v => v.lang === 'en-AU');
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            if (targetVoice) utterance.voice = targetVoice;
+            utterance.lang = 'en-AU';
+            utterance.rate = 0.95; 
+            utterance.pitch = 1.1;
+
+            // Update Button UI to "Playing"
+            btn.classList.add('playing');
+            btn.innerHTML = `
+                <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                Pause
+            `;
+
+            // When finished, reset button
+            utterance.onend = function() {
+                btn.classList.remove('playing');
+                btn.classList.remove('paused');
+                btn.innerHTML = `
+                    <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    Listen to Scenario
+                `;
+                currentBtn = null;
+            };
+
+            synth.speak(utterance);
+        }
+        
+        // Ensure voices are loaded (for Chrome)
+        window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.getVoices();
+        };
+    </script>
+
+</body>
+</html>
