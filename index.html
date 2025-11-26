@@ -3,81 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMS Content Box Preview</title>
+    <title>Reporting Obligations Intro</title>
     <style>
-        /* Basic page reset for the preview container */
+        /* Reset for iframe usage: remove default margins so it fits perfectly */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            padding: 40px;
-            display: flex;
-            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: transparent; /* Allows it to blend if needed, or white */
+            margin: 0;
+            padding: 0;
+            display: block;
         }
-        /* Container to simulate the LMS width */
-        .lms-container {
+        
+        /* The container determines the look. 
+           In an iframe, we want it to fill the available width provided by the iframe tag. */
+        .content-box {
+            background-color: #f2f2f2; 
+            padding: 30px; 
+            color: #333333; 
+            line-height: 1.6; 
+            box-sizing: border-box; 
             width: 100%;
-            max-width: 800px;
+            /* Optional: Add a subtle border if you want it to look distinct */
+            /* border: 1px solid #e0e0e0; */
+        }
+
+        h3 {
+            margin-top: 0; 
+            margin-bottom: 20px; 
+            font-size: 1.6rem; 
+            color: #333;
+        }
+
+        p {
+            font-size: 1.1rem; 
+            margin-bottom: 25px;
+        }
+
+        .list-intro {
+            font-weight: 600; 
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-bottom: 25px; 
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            font-style: italic; 
+            color: #555; 
+            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
 
-    <div class="lms-container">
-        <!-- YOUR CODE STARTS HERE -->
-        <div style="
-            background-color: #f2f2f2; 
-            padding: 30px; 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            color: #333333; 
-            line-height: 1.6; 
-            margin: 20px 0;
-            box-sizing: border-box; 
-            max-width: 100%;
-            width: auto;">
+    <div class="content-box">
+        <!-- Simple Title -->
+        <h3>Reporting</h3>
 
-            <!-- Simple Title -->
-            <h3 style="
-                margin-top: 0; 
-                margin-bottom: 20px; 
-                font-size: 1.6rem; 
-                color: #333;">
-                Reporting
-            </h3>
+        <!-- Intro Text -->
+        <p>
+            As a Dental Assistant, you are the eyes and ears of the practice. Reporting concerns is not about getting people in trouble—it is about keeping patients safe. Whether it is a faulty machine, a safety hazard, or a child at risk, you have a professional and legal duty to speak up. If you see something, say something.
+        </p>
 
-            <!-- Intro Text -->
-            <p style="font-size: 1.1rem; margin-bottom: 25px;">
-                As a Dental Assistant, you are the eyes and ears of the practice. Reporting concerns is not about getting people in trouble—it is about keeping patients safe. Whether it is a faulty machine, a safety hazard, or a child at risk, you have a professional and legal duty to speak up. If you see something, say something.
-            </p>
+        <p class="list-intro">
+            The four main reportable areas include:
+        </p>
 
-            <p style="font-weight: 600; margin-bottom: 15px;">
-                The four main reportable areas include:
-            </p>
+        <!-- Standard List -->
+        <ul>
+            <li>
+                <strong>General Breaches:</strong> Everyday hazards and infection control.
+            </li>
+            <li>
+                <strong>Mandatory Reporting:</strong> Protecting vulnerable children.
+            </li>
+            <li>
+                <strong>WHS:</strong> Ensuring a safe physical environment.
+            </li>
+            <li>
+                <strong>Professional Conduct:</strong> Managing serious ethical or legal infringements.
+            </li>
+        </ul>
 
-            <!-- Standard List -->
-            <ul style="margin-bottom: 25px; padding-left: 20px;">
-                <li style="margin-bottom: 10px;">
-                    <strong>General Breaches:</strong> Everyday hazards and infection control.
-                </li>
-                <li style="margin-bottom: 10px;">
-                    <strong>Mandatory Reporting:</strong> Protecting vulnerable children.
-                </li>
-                <li style="margin-bottom: 10px;">
-                    <strong>WHS:</strong> Ensuring a safe physical environment.
-                </li>
-                <li style="margin-bottom: 10px;">
-                    <strong>Professional Conduct:</strong> Managing serious ethical or legal infringements.
-                </li>
-            </ul>
-
-            <!-- Footer Instruction -->
-            <p style="
-                font-style: italic; 
-                color: #555; 
-                margin-bottom: 0;">
-                Select the cards below to explore your responsibilities in each area.
-            </p>
-        </div>
-        <!-- YOUR CODE ENDS HERE -->
+        <!-- Footer Instruction -->
+        <p class="footer-text">
+            Select the cards below to explore your responsibilities in each area.
+        </p>
     </div>
 
 </body>
